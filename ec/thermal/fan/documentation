@@ -1,0 +1,70 @@
+Legion EC Fan Control Documentation for 2020/2022 models (excludes the 2020 L7, IG3, L7 Slim, 2021 IG3, and 2022 L7, L7 Slim.)
+
+Change the memory address based on year and CPU:
+FF00D520: Intel 2021/2020
+FE00D520: AMD 2021/2020
+FE0B0520: Intel/AMD 2022
+
+-------------------------------------
+Technical Info:
+
+FF00D530: Mode indicator, changing it won't do anything useful.
+FF00D531: Indicates the fan curve is in the low temperature mode or not(changing it won't do anything useful, low temp curve: 1 normal curve: 2)
+FF00D534: Indicates the fan curve level the fans are currently at.
+FF00D535: Indicates the fan curve endpoint, can be changed to increase the fan curve length(the fans will ignore values that are placed after the endpoint)
+FF00D538: CPU Temperature
+FF00D539: GPU Temperature (can be disabled by setting 0xBD to 20 in the main EC or FF00D4BD)
+FF00D53A: Heatsink/VRM's Temperature
+FF00D5FC: CPU Fan Target RPM
+FF00D5FD: GPU Fan Target RPM
+FF00D4AB: Locks the fan speed and disables the fan delay counters at FF00D5FE/FF.
+
+Max Fan Curve Step Count: 12 Steps
+
+-------------------------------------
+ 
+		FAN CONTROL
+
+-------------------------------------
+
+FF00D5E0&E1: CPU(Right) Fan TACH High and Low bits, read it in 16bit and you get the full fan RPM
+FF00D5E2&E3: GPU(Left) Fan TACH High and Low bits, read it in 16bit and you get the full fan RPM
+FF00D5E4: CPU(Right) Fan Instant Set Register(will get overwritten by the fan curve once the fan speed change delay ends) (fan delay bypassable by setting this register and the fan curve at the same time)
+FF00D5E5: CPU(Left) Fan Instant Set Register(will get overwritten by the fan curve once the fan speed change delay ends) (fan delay bypassable by setting this register and the fan curve at the same time)
+
+FF00D5FE: is the cpu fan delay counter, counts up to 100 in 5 seconds, you can bypass the fan delay if you set it to 64.
+FF00D5FF: is the cpu fan delay counter, counts up to 100 in 5 seconds, you can bypass the fan delay if you set it to 64.
+
+----------------------------------------------------
+
+Fan Acceleration/Deceleration fix for 2020 models: 
+
+FF00D3DC: Fan 1 Acceleration
+FF00D3DD: Fan 2 Acceleration
+FF00D3DE: Fan 1 Deceleration
+FF00D3DF: Fan 2 Deceleration
+----------------------------------------------------
+
+Fan Curve: 
+
+For CPU Fan, FF00D541 to whatever value you set at FF00D535 (e.g if you set 0A, the fan curve will be 9 steps max)
+For GPU Fan, FF00D551 to whatever value you set at FF00D535
+
+Fan Acceleration for both fan: FF00D561 to whatever value you set at FF00D535 (you can set different values for each steps in the curve)(doesn't work for some reason on 2020 models)
+Fan Deceleration for both fan: FF00D571 to whatever value you set at FF00D535 (you can set different values for each steps in the curve)(doesn't work for some reason on 2020 models)
+
+CPU Temperature Thresholds for Ramp Up: FF00D581 to whatever value you set at FF00D535
+CPU Temperature Thresholds for Hysteresis(Slow Down): FF00D591 to whatever value you set at FF00D535 
+
+GPU Temperature Thresholds for Ramp Up: FF00D5A1 to whatever value you set at FF00D535
+GPU Temperature Thresholds for Hysteresis(Slow Down): FF00D5B1 to whatever value you set at FF00D535
+
+VRM/Heatsink Temperature Thresholds for Ramp Up: FF00D5C1 to whatever value you set at FF00D535
+VRM/Heatsink Temperature Thresholds for Hysteresis(Slow Down): FF00D5D1 to whatever value you set at FF00D5D5
+
+Set 7F(127) for ignoring values in the temperature threshold tables.
+
+-------------------------------------------------------------------------------------------------
+
+THE END.
+
