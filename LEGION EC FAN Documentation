@@ -15,7 +15,7 @@ C531: Indicates the fan curve is in the low temperature mode or not (changes ove
 C534: Indicates the fan curve level the fans are currently at.
 C535: Indicates the fan curve endpoint, can be changed to increase the fan curve length(the fans will ignore values that are placed after the endpoint)
 C538: CPU Temperature
-C539: GPU Temperature (can be disabled by setting 0xBD to 20 in the main EC or C4BD)
+C539: GPU Temperature (can be disabled by setting C4BD to 20)
 C53A: CPU Skin Temp
 C5FC: CPU Fan Target RPM
 C5FD: GPU Fan Target RPM
@@ -70,13 +70,13 @@ GPU Temp Thresholds for Ramp Up: C5A1 to whatever value you set at C535
 GPU Temp Thresholds for Slow Down: C5B1 to whatever value you set at C535
 
 PCH Temp Thresholds for Ramp Up: C5C1 to whatever value you set at C535
-PCH Temp Thresholds for Slow Down: C5D1 to whatever value you set at C5D5
+PCH Temp Thresholds for Slow Down: C5D1 to whatever value you set at C535
 
 Set 7F(127) to ignore values in the table.
 
 ----------------------------------------------------
 
-GEN 8-10 
+GEN 8-10 (excludes LOQs except the 1st gen LOQ)
 
 ----------------------------------------------------
 
@@ -87,6 +87,51 @@ FAN CONTROL
 DFD0&D1: CPU Fan TACH High and Low bits, read it in 16bit and you get the full fan RPM
 DFD2&D3: GPU Fan TACH High and Low bits, read it in 16bit and you get the full fan RPM
 DFD3&D4: SYS Fan TACH High and Low bits, read it in 16bit and you get the full fan RPM
+
+---------------
+2 Fan Legions:
+---------------
+
+DFDA: CPU Fan 1000ms Delay before changing speed
+DFDA: GPU Fan 1000ms Delay before changing speed
+
+DFE4: CPU Requested Fan Step
+DFE5: GPU Requested Fan Step
+DFE6: PCH Requested Fan Step
+DFEA: Final Global Fan Step
+
+DFD4: CPU Fan Apply RPM (*100)
+DFD5: GPU Fan Apply RPM (*100)
+
+DFD8: CPU Fan Target RPM (*100)
+DFD9: GPU Fan Target RPM (*100)
+
+DFF8: CPU Fan Current RPM (*100)
+DFF9: GPU Fan Current RPM (*100)
+
+DFE1: GPU Fan Target PWM
+DFE2: CPU Fan Target PWM
+
+---------------
+3 Fan Legions:
+---------------
+
+DFD9: CPU Requested Fan Step
+DFDA: GPU Requested Fan Step
+DFDB: PCH Requested Fan Step
+DFDE: Final Global Fan Step
+
+DFE0: CPU Fan Target RPM (*100)
+DFE1: GPU Fan Target RPM (*100)
+DFE2: SYS Fan Target RPM (*100)
+
+DFEC: CPU Fan Current RPM (*100)
+DFED: GPU Fan Current RPM (*100)
+DFEE: SYS Fan Current RPM (*100)
+
+DFE8: GPU Fan Target PWM
+DFE9: CPU Fan Target PWM
+DFEA: SYS Fan Target PWM
 
 ----------------------------------------------------
 
@@ -115,3 +160,4 @@ PCH Temp Thresholds for Slow Down: DF0B to DFBB
 Set 7F(127) to ignore values in the table.
 
 ----------------------------------------------------
+
