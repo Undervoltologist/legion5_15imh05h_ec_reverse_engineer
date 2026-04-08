@@ -16,7 +16,7 @@ C534: Indicates the fan curve level the fans are currently at.
 C535: Indicates the fan curve endpoint, can be changed to increase the fan curve length(the fans will ignore values that are placed after the endpoint)
 C538: CPU Temperature
 C539: GPU Temperature (can be disabled by setting C4BD to 20)
-C53A: CPU Skin Temp
+C53A: PCH Temperature
 C5FC: CPU Fan Target RPM
 C5FD: GPU Fan Target RPM
 C4AB: Disable EC fan control by setting to 8, enable by 0.
